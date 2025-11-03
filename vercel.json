@@ -6,6 +6,7 @@
   ],
   "routes": [
     { "src": "/pipeline-diagram-ocr.png", "dest": "/public/pipeline-diagram-ocr.png" },
+    { "src": "/public/(.*)", "dest": "/public/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

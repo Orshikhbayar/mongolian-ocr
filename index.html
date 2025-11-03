@@ -97,6 +97,11 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       margin-top: 20px;
+      transition: opacity 0.3s ease;
+    }
+
+    img.diagram.loading {
+      opacity: 0.5;
     }
 
     #dataset {
@@ -119,6 +124,25 @@
       padding: 30px;
       text-align: center;
       font-size: 1em;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2em;
+      }
+      
+      h2 {
+        font-size: 1.6em;
+      }
+      
+      section {
+        padding: 40px 5%;
+      }
+      
+      img.diagram {
+        width: 95%;
+      }
     }
   </style>
 </head>
@@ -199,11 +223,50 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    // Cross-environment image loading with fallback paths
+    function setupImageFallbacks() {
+      const images = document.querySelectorAll('img.diagram');
+      images.forEach(img => {
+        const fallbackPaths = [
+          '/pipeline-diagram-ocr.png',        // Vercel production
+          './public/pipeline-diagram-ocr.png', // Local file://
+          'public/pipeline-diagram-ocr.png'    // Alternative local
+        ];
+        
+        let currentIndex = 0;
+        
+        function tryNextPath() {
+          if (currentIndex < fallbackPaths.length) {
+            img.classList.add('loading');
+            img.src = fallbackPaths[currentIndex];
+            currentIndex++;
+          } else {
+            console.warn('Could not load pipeline diagram image');
+            img.alt = 'Pipeline diagram could not be loaded';
+          }
+        }
+        
+        img.onload = function() {
+          img.classList.remove('loading');
+        };
+        
+        img.onerror = tryNextPath;
+        
+        // Start with first path if not already loaded
+        if (!img.complete || img.naturalHeight === 0) {
+          tryNextPath();
+        }
+      });
+    }
+
+    // Section visibility observer
     const sections = document.querySelectorAll("section");
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
         });
       },
       { threshold: 0.3 }
@@ -211,28 +274,56 @@
     sections.forEach(sec => observer.observe(sec));
 
     // Dataset Chart
-    const ctx = document.getElementById('datasetChart').getContext('2d');
-    const chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Train / Сургалт', 'Validation / Баталгаажуулалт', 'Test / Туршилт'],
-        datasets: [{
-          label: 'Зургийн тоо (Images)',
-          data: [38000, 10000, 4000],
-          backgroundColor: ['#004aad', '#009688', '#80cbc4']
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: 'Dataset Split — Train / Validation / Test',
-            font: { size: 18 }
+    function initializeChart() {
+      const ctx = document.getElementById('datasetChart');
+      if (ctx) {
+        const chart = new Chart(ctx.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Train / Сургалт', 'Validation / Баталгаажуулалт', 'Test / Туршилт'],
+            datasets: [{
+              label: 'Зургийн тоо (Images)',
+              data: [38000, 10000, 4000],
+              backgroundColor: ['#004aad', '#009688', '#80cbc4']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'Dataset Split — Train / Validation / Test',
+                font: { size: 18 }
+              }
+            },
+            scales: { 
+              y: { 
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    return value.toLocaleString();
+                  }
+                }
+              }
+            }
           }
-        },
-        scales: { y: { beginAtZero: true } }
+        });
+      }
+    }
+
+    // Initialize everything when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      setupImageFallbacks();
+      initializeChart();
+    });
+
+    // Fallback for older browsers
+    window.addEventListener('load', function() {
+      setupImageFallbacks();
+      if (!document.getElementById('datasetChart').hasChildNodes()) {
+        initializeChart();
       }
     });
   </script>
