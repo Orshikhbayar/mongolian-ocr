@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Монгол бичигт AI портал — Pitch Deck</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: #222;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background: linear-gradient(270deg, #f5f7fb, #e3f2fd, #f5f7fb);
+      background-size: 600% 600%;
+      animation: gradientFlow 15s ease infinite;
+    }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 10%;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    section.visible { opacity: 1; transform: translateY(0); }
+    h1, h2 { margin: 0; }
+    h1 {
+      font-size: 3em;
+      background: linear-gradient(90deg, #004aad, #009688);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 15px;
+      transition: transform 0.8s ease;
+    }
+    h1:hover { transform: scale(1.05); }
+    h2 { color: #004aad; margin-bottom: 15px; font-size: 2em; }
+    p, li { max-width: 900px; line-height: 1.6em; font-size: 1.1em; }
+    ul { list-style: none; padding: 0; }
+    li::before { content: '• '; color: #009688; }
+    img.diagram {
+      max-width: 800px;
+      width: 90%;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin-top: 20px;
+    }
+    .footer {
+      background-color: #004aad;
+      color: white;
+      padding: 30px;
+      text-align: center;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <section id="intro">
+    <h1>Монгол бичигт AI портал</h1>
+    <p><strong>OCR + Translation + Search = Монгол хэлний дижитал ирээдүй</strong><br>
+    Хиймэл оюунаар соёлын өвийг сэргээж, Монгол бичгийг дэлхийд түгээх инновацийн платформ.</p>
+  </section>
+
+  <section id="pipeline">
+    <h2>🧩 OCR Pipeline Diagram</h2>
+    <p>Монгол OCR системийн өгөгдөл боловсруулалт, танилт, хэлзүйн боловсруулалтын шат дамжлага.</p>
+    <img class="diagram" src="./pipeline diagram-ocr.png" alt="OCR Pipeline Diagram" />
+  </section>
+
+  <section id="vision">
+    <h2>💬 Алсын хараа</h2>
+    <p><em>“Монгол бичгийг хиймэл оюуны сэтгэлгээнд шингээж, дижитал ертөнцөд амилуулах.”</em></p>
+    <p>Монгол хэлний дижитал экосистемийг бүтээж, судалгаанд суурилсан инновацаар дэлхийд Монгол соёлыг таниулах зорилготой.</p>
+  </section>
+
+  <div class="footer">
+    Монгол бичигт AI портал © 2025 — Инноваци ба Соёлын уулзвар
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.3 }
+    );
+    sections.forEach(sec => observer.observe(sec));
+  </script>
+</body>
+</html>
