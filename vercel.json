@@ -1,9 +1,11 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.html", "use": "@vercel/static" }
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "public/**", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/pipeline-diagram-ocr.png", "dest": "/public/pipeline-diagram-ocr.png" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
