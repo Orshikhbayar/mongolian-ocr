@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="mn">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,11 +16,21 @@
       background-size: 600% 600%;
       animation: gradientFlow 15s ease infinite;
     }
+
     @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
+
     section {
       min-height: 100vh;
       display: flex;
@@ -32,40 +43,76 @@
       transform: translateY(100px);
       transition: opacity 1s ease, transform 1s ease;
     }
-    section.visible { opacity: 1; transform: translateY(0); }
-    h1, h2 { margin: 0; }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+    }
+
     h1 {
       font-size: 3em;
       background: linear-gradient(90deg, #004aad, #009688);
       -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
       margin-bottom: 15px;
       transition: transform 0.8s ease;
     }
-    h1:hover { transform: scale(1.05); }
-    h2 { color: #004aad; margin-bottom: 15px; font-size: 2em; }
-    p, li { max-width: 900px; line-height: 1.6em; font-size: 1.1em; }
-    ul { list-style: none; padding: 0; }
-    li::before { content: '• '; color: #009688; }
+
+    h1:hover {
+      transform: scale(1.05);
+    }
+
+    h2 {
+      color: #004aad;
+      margin-bottom: 15px;
+      font-size: 2em;
+    }
+
+    p,
+    li {
+      max-width: 900px;
+      line-height: 1.6em;
+      font-size: 1.1em;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li::before {
+      content: '• ';
+      color: #009688;
+    }
+
     img.diagram {
       max-width: 800px;
       width: 90%;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       margin-top: 20px;
     }
+
     #dataset {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 16px;
       padding: 40px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       margin: 60px auto;
       max-width: 900px;
     }
+
     #dataset h2 {
       color: #004aad;
       font-size: 2em;
     }
+
     .footer {
       background-color: #004aad;
       color: white;
@@ -75,11 +122,12 @@
     }
   </style>
 </head>
+
 <body>
   <section id="intro">
     <h1>Монгол хэл бичигт AI портал</h1>
     <p><strong>OCR + Translation + Search = Монгол хэлний дижитал ирээдүй</strong><br>
-    Хиймэл оюунаар соёлын өвийг сэргээж, Монгол бичгийг дэлхийд түгээх инновацийн платформ.</p>
+      Хиймэл оюунаар соёлын өвийг сэргээж, Монгол бичгийг дэлхийд түгээх инновацийн платформ.</p>
   </section>
 
   <section id="pipeline">
@@ -94,9 +142,54 @@
     <canvas id="datasetChart" width="800" height="400"></canvas>
   </section>
 
+  <section id="problem">
+    <h2>🚨 Асуудал / Problem</h2>
+    <p><strong>Монгол бичгийн дижитал хоцрогдол:</strong></p>
+    <ul>
+      <li>Түүхэн баримт бичгүүд хуучирч, алга болж байна</li>
+      <li>Монгол бичгийг таних OCR технологи хангалтгүй</li>
+      <li>Орчуулга, хайлтын системүүд дутагдалтай</li>
+      <li>Дэлхийн хэмжээнд Монгол хэлний дижитал контент цөөн</li>
+    </ul>
+  </section>
+
+  <section id="solution">
+    <h2>💡 Шийдэл / Solution</h2>
+    <p><strong>AI-д суурилсан Монгол бичгийн дижитал платформ:</strong></p>
+    <ul>
+      <li>Өндөр нарийвчлалтай OCR систем (95%+ зөв байдал)</li>
+      <li>Монгол-Англи хэл хоорондын орчуулга</li>
+      <li>Ухаалаг хайлт ба индексжүүлэлт</li>
+      <li>Соёлын өвийн цахим сан бүтээх</li>
+    </ul>
+  </section>
+
+  <section id="technology">
+    <h2>⚙️ Технологийн бүтэц / Technology Stack</h2>
+    <p><strong>Хиймэл оюуны дэвшилтэт технологиуд:</strong></p>
+    <ul>
+      <li>Computer Vision: OpenCV, TensorFlow, PyTorch</li>
+      <li>OCR Engine: Tesseract, PaddleOCR, Custom CNN</li>
+      <li>NLP: Transformer models, BERT, GPT</li>
+      <li>Backend: Python, FastAPI, PostgreSQL</li>
+      <li>Frontend: React, TypeScript, Chart.js</li>
+    </ul>
+  </section>
+
+  <section id="market">
+    <h2>📈 Зах зээлийн боломж / Market Opportunity</h2>
+    <p><strong>Дэлхийн OCR зах зээл:</strong></p>
+    <ul>
+      <li>2024 он: $13.38 тэрбум ам.доллар</li>
+      <li>2030 он хүртэл: $26.31 тэрбум ам.доллар</li>
+      <li>Жилийн өсөлт: 12.3% (CAGR)</li>
+      <li>Монгол хэлний зах зээл: Шинэ боломж</li>
+    </ul>
+  </section>
+
   <section id="vision">
-    <h2>💬 Алсын хараа</h2>
-    <p><em>“Монгол бичгийг хиймэл оюуны сэтгэлгээнд шингээж, дижитал ертөнцөд амилуулах.”</em></p>
+    <h2>💬 Алсын хараа / Vision</h2>
+    <p><em>"Монгол бичгийг хиймэл оюуны сэтгэлгээнд шингээж, дижитал ертөнцөд амилуулах."</em></p>
     <p>Монгол хэлний дижитал экосистемийг бүтээж, судалгаанд суурилсан инновацаар дэлхийд Монгол соёлыг таниулах зорилготой.</p>
   </section>
 
@@ -104,6 +197,7 @@
     Монгол бичигт AI портал © 2025 — Инноваци ба Соёлын уулзвар
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     const sections = document.querySelectorAll("section");
     const observer = new IntersectionObserver(
@@ -115,6 +209,33 @@
       { threshold: 0.3 }
     );
     sections.forEach(sec => observer.observe(sec));
+
+    // Dataset Chart
+    const ctx = document.getElementById('datasetChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Train / Сургалт', 'Validation / Баталгаажуулалт', 'Test / Туршилт'],
+        datasets: [{
+          label: 'Зургийн тоо (Images)',
+          data: [38000, 10000, 4000],
+          backgroundColor: ['#004aad', '#009688', '#80cbc4']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Dataset Split — Train / Validation / Test',
+            font: { size: 18 }
+          }
+        },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
   </script>
 </body>
+
 </html>
