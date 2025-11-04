@@ -5,43 +5,219 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Монгол хэл бичигт AI портал</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <style>
-    body {
+    :root {
+      --color-primary: #007AFF;
+      --color-secondary: #5856D6;
+      --color-accent: #00C7BE;
+      --color-success: #34C759;
+      --color-warning: #FF9500;
+      --color-danger: #FF3B30;
+
+      --gradient-primary: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+      --gradient-accent: linear-gradient(135deg, #00C7BE 0%, #007AFF 100%);
+      --gradient-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      --gradient-background: linear-gradient(180deg, #1C1C1E 0%, #000000 100%);
+
+      --text-primary: #FFFFFF;
+      --text-secondary: rgba(255, 255, 255, 0.8);
+      --text-tertiary: rgba(255, 255, 255, 0.6);
+
+      --surface-primary: rgba(255, 255, 255, 0.1);
+      --surface-secondary: rgba(255, 255, 255, 0.05);
+      --surface-border: rgba(255, 255, 255, 0.2);
+
+      --shadow-small: 0 4px 16px rgba(0, 0, 0, 0.12);
+      --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.16);
+      --shadow-large: 0 16px 64px rgba(0, 0, 0, 0.24);
+
+      --blur-glass: blur(20px);
+      --blur-heavy: blur(40px);
+
+      --border-radius: 16px;
+      --border-radius-large: 24px;
+      --border-radius-pill: 50px;
+
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+      --spacing-2xl: 4rem;
+      --spacing-3xl: 6rem;
+    }
+
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      color: #222;
-      overflow-x: hidden;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
       scroll-behavior: smooth;
-      background: linear-gradient(270deg, #f5f7fb, #e3f2fd, #f5f7fb);
-      background-size: 600% 600%;
-      animation: gradientFlow 15s ease infinite;
     }
 
-    @keyframes gradientFlow {
-      0% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-      100% {
-        background-position: 0% 50%;
-      }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+      background: var(--gradient-background);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-sm);
+    }
+
+    /* Background Effects */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(88, 86, 214, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(0, 199, 190, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Navigation - Apple Style Clean */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: 52px;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: var(--blur-glass);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-x: hidden;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: var(--blur-heavy);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      overflow-x: hidden;
+    }
+
+    .nav-logo {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+      transition: opacity 0.2s ease;
+      margin-right: 2rem;
+    }
+
+    .nav-logo:hover {
+      opacity: 0.8;
+    }
+
+    .nav-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li {
+      position: relative;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+
+    .nav-links li::before {
+      display: none;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.2;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links a:hover {
+      color: rgba(255, 255, 255, 1);
+      background: rgba(0, 199, 190, 0.1);
+      box-shadow: 0 0 20px rgba(0, 199, 190, 0.2);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Sections */
     section {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 60px 10%;
+      padding: var(--spacing-3xl) var(--spacing-lg);
       text-align: center;
+      position: relative;
       opacity: 0;
-      transform: translateY(100px);
-      transition: opacity 1s ease, transform 1s ease;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     section.visible {
@@ -49,280 +225,1237 @@
       transform: translateY(0);
     }
 
-    h1,
-    h2 {
-      margin: 0;
-    }
-
+    /* Typography */
     h1 {
-      font-size: 3em;
-      background: linear-gradient(90deg, #004aad, #009688);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: var(--spacing-md);
+      background: var(--gradient-primary);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      margin-bottom: 15px;
-      transition: transform 0.8s ease;
-    }
-
-    h1:hover {
-      transform: scale(1.05);
+      text-align: center;
     }
 
     h2 {
-      color: #004aad;
-      margin-bottom: 15px;
-      font-size: 2em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--spacing-lg);
+      color: var(--text-primary);
     }
 
-    p,
-    li {
-      max-width: 900px;
-      line-height: 1.6em;
-      font-size: 1.1em;
+    .lead {
+      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-xl);
+      max-width: 800px;
     }
 
+    p {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-lg);
+      max-width: 700px;
+    }
+
+    /* Glass Cards */
+    .glass-card {
+      background: var(--surface-primary);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--border-radius-large);
+      padding: var(--spacing-2xl);
+      max-width: 1000px;
+      width: 100%;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gradient-accent);
+      border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-large);
+      border-color: rgba(0, 122, 255, 0.3);
+    }
+
+    .glass-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-md) var(--spacing-xl);
+      background: var(--gradient-primary);
+      color: white;
+      text-decoration: none;
+      border-radius: var(--border-radius-pill);
+      font-weight: 600;
+      font-size: 1.125rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-medium);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-large);
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    /* Lists */
     ul {
       list-style: none;
-      padding: 0;
-    }
-
-    li::before {
-      content: '• ';
-      color: #009688;
-    }
-
-    img.diagram {
       max-width: 800px;
-      width: 90%;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      margin-top: 20px;
-      transition: opacity 0.3s ease;
+      text-align: left;
     }
 
-    img.diagram.loading {
-      opacity: 0.5;
+    li {
+      position: relative;
+      padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xl);
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
     }
 
-    #dataset {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 16px;
-      padding: 40px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      margin: 60px auto;
+    li:last-child {
+      border-bottom: none;
+    }
+
+    /* Content list items only (not navigation) */
+    .glass-card li::before,
+    section:not(nav) li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      top: var(--spacing-sm);
+      color: var(--color-accent);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .glass-card li:hover,
+    section:not(nav) li:hover {
+      color: var(--text-primary);
+      transform: translateX(8px);
+    }
+
+    .glass-card li:hover::before,
+    section:not(nav) li:hover::before {
+      color: var(--color-primary);
+      transform: scale(1.2);
+    }
+
+    /* Pipeline Diagram */
+    .pipeline-container {
+      width: 100%;
       max-width: 900px;
+      margin: var(--spacing-xl) auto;
+      padding: var(--spacing-xl);
+      background: var(--surface-primary);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--border-radius-large);
+      box-shadow: var(--shadow-large);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    #dataset h2 {
-      color: #004aad;
-      font-size: 2em;
+    .pipeline-container:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
     }
 
-    .footer {
-      background-color: #004aad;
-      color: white;
-      padding: 30px;
+    .pipeline-container svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 8px 32px rgba(0, 122, 255, 0.2));
+    }
+
+    /* Dataset Section */
+    #dataset {
+      background: var(--surface-primary);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--border-radius-large);
+      padding: var(--spacing-2xl);
+      margin: var(--spacing-xl) auto;
+      max-width: 1000px;
+      box-shadow: var(--shadow-large);
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin: var(--spacing-xl) auto;
+    }
+
+    #datasetChart {
+      max-height: 400px;
+      width: 100%;
+      filter: drop-shadow(0 8px 32px rgba(0, 122, 255, 0.1));
+    }
+
+    .chart-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-primary);
+      backdrop-filter: var(--blur-glass);
+      border-radius: var(--border-radius);
+    }
+
+    .loading-spinner {
+      font-size: 3rem;
+      color: var(--color-primary);
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Split Layout */
+    .split-section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-2xl);
+      max-width: 1400px;
+      width: 100%;
+      align-items: stretch;
+      margin: 0 auto;
+    }
+
+    .split-section .glass-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 400px;
+    }
+
+    .split-section .glass-card ul {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      margin-top: var(--spacing-lg);
+    }
+
+    .split-section .glass-card h2 {
+      margin-bottom: var(--spacing-md);
+      flex-shrink: 0;
+    }
+
+    /* Technology Grid */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-lg);
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .tech-item {
+      background: var(--surface-secondary);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
       text-align: center;
-      font-size: 1em;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Responsive design */
+    .tech-item:hover {
+      transform: translateY(-4px);
+      background: var(--surface-primary);
+      box-shadow: var(--shadow-medium);
+    }
+
+    /* Market Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-lg);
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: var(--spacing-lg);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: block;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Vision Section - Apple Style */
+    #vision {
+      padding: 6rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    #vision .glass-card {
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 4rem 3rem;
+    }
+
+    #vision h2 {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin: 0;
+      text-align: center;
+    }
+
+    #vision .vision-quote {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text-primary);
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(0,199,190,0.8) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(0,199,190,0.3);
+    }
+
+    #vision .vision-description {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.8;
+      color: #a1a1aa;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--surface-secondary);
+      backdrop-filter: var(--blur-glass);
+      border-top: 1px solid var(--surface-border);
+      padding: 3rem 1rem;
+      text-align: center;
+      color: #a1a1aa;
+    }
+
+    .footer p {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: #a1a1aa;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+
+    .footer p:first-child {
+      margin-bottom: 0.5rem;
+    }
+
+
+
+    /* Scroll Progress */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gradient-primary);
+      transform-origin: left;
+      transform: scaleX(0);
+      z-index: 1001;
+      transition: transform 0.1s ease;
+    }
+
+    /* Responsive Design - Apple Style Clean */
+    @media (max-width: 1024px) {
+      .nav-container {
+        padding: 0 1.5rem;
+      }
+      
+      .nav-logo {
+        margin-right: 1.5rem;
+      }
+      
+      .nav-links {
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        font-size: 13px;
+        padding: 6px 10px;
+      }
+      
+      .split-section {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+        max-width: 800px;
+      }
+
+      .split-section .glass-card {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-logo {
+        margin-right: 1rem;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+        padding: 6px 8px;
+      }
+    }
+
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2.2em;
+      .nav-container {
+        padding: 0 1rem;
       }
-      
-      h2 {
-        font-size: 1.6em;
+
+      .nav-logo {
+        margin-right: 0;
       }
-      
+
+      .nav-center {
+        display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 1rem;
+        right: 1rem;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: var(--blur-heavy);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        overflow-x: visible;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        width: 100%;
+        padding: 0;
+        border: none;
+        transform: none;
+      }
+
+      .nav-links li::before {
+        display: none !important;
+      }
+
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+        padding: 12px 16px;
+        font-size: 16px;
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .nav-links a:hover {
+        background: rgba(0, 199, 190, 0.1);
+        color: rgba(255, 255, 255, 1);
+        transform: none;
+      }
+
       section {
-        padding: 40px 5%;
+        padding: var(--spacing-2xl) var(--spacing-md);
       }
-      
-      img.diagram {
-        width: 95%;
+
+      .glass-card {
+        padding: var(--spacing-lg);
       }
+
+      .split-section {
+        gap: var(--spacing-lg);
+        padding: 0 var(--spacing-sm);
+      }
+
+      .tech-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      #vision {
+        padding: 4rem 1rem;
+      }
+
+      #vision .glass-card {
+        padding: 3rem 2rem;
+        gap: 1.25rem;
+      }
+
+      #vision .vision-quote {
+        font-size: clamp(1.125rem, 4vw, 1.5rem);
+      }
+
+      #vision .vision-description {
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #vision {
+        padding: 3rem 1rem;
+      }
+
+      #vision .glass-card {
+        padding: 2rem 1.5rem;
+        gap: 1rem;
+      }
+
+      #vision h2 {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+      }
+
+      #vision .vision-quote {
+        font-size: clamp(1rem, 5vw, 1.25rem);
+        line-height: 1.5;
+      }
+
+      #vision .vision-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    /* Parallax Effect */
+    .parallax {
+      transform: translateZ(0);
+      transition: transform 0.1s ease-out;
     }
   </style>
 </head>
 
 <body>
+  <!-- Scroll Progress -->
+  <div class="scroll-progress"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-logo">🇲🇳 AI Portal</div>
+      <div class="nav-center">
+        <ul class="nav-links">
+          <li><a href="#intro">Нүүр</a></li>
+          <li><a href="#pipeline">Pipeline</a></li>
+          <li><a href="#dataset">Өгөгдөл</a></li>
+          <li><a href="#problem">Асуудал</a></li>
+          <li><a href="#solution">Шийдэл</a></li>
+          <li><a href="#technology">Технологи</a></li>
+          <li><a href="#market">Зах зээл</a></li>
+          <li><a href="#vision">Алсын хараа</a></li>
+          <li><a href="#overview">Overview</a></li>
+        </ul>
+      </div>
+      <button class="mobile-menu-toggle">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
   <section id="intro">
     <h1>Монгол хэл бичигт AI портал</h1>
-    <p><strong>OCR + Translation + Search = Монгол хэлний дижитал ирээдүй</strong><br>
-      Хиймэл оюунаар соёлын өвийг сэргээж, Монгол бичгийг дэлхийд түгээх инновацийн платформ.</p>
+    <p class="lead">OCR + Translation + Search = Монгол хэлний дижитал ирээдүй</p>
+    <p>Хиймэл оюунаар соёлын өвийг сэргээж, Монгол бичгийг дэлхийд түгээх инновацийн платформ</p>
+    <a href="#pipeline" class="btn">Танилцах</a>
   </section>
 
+  <!-- Pipeline Section -->
   <section id="pipeline">
-    <h2>🧩 OCR Pipeline Diagram</h2>
-    <p>Монгол OCR системийн өгөгдөл боловсруулалт, танилт, хэлзүйн боловсруулалтын шат дамжлага.</p>
-    <img class="diagram" src="/pipeline-diagram-ocr.png" alt="OCR Pipeline Diagram" />
+    <h2>OCR Pipeline</h2>
+    <p>Монгол OCR системийн өгөгдөл боловсруулалт, танилт, хэлзүйн боловсруулалтын шат дамжлага</p>
+
+    <div class="pipeline-container">
+      <svg viewBox="0 0 800 1000" style="width: 100%; height: auto;">
+        <defs>
+          <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#007AFF;stop-opacity:0.9" />
+            <stop offset="100%" style="stop-color:#5856D6;stop-opacity:0.7" />
+          </linearGradient>
+          <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#00C7BE;stop-opacity:0.9" />
+            <stop offset="100%" style="stop-color:#007AFF;stop-opacity:0.7" />
+          </linearGradient>
+          <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#34C759;stop-opacity:0.9" />
+            <stop offset="100%" style="stop-color:#00C7BE;stop-opacity:0.7" />
+          </linearGradient>
+
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="url(#primaryGrad)" />
+          </marker>
+        </defs>
+
+        <rect width="800" height="1000" fill="transparent" rx="24" />
+
+        <!-- Stage 1: Data Prep -->
+        <g transform="translate(50, 80)">
+          <rect x="0" y="0" width="700" height="160" rx="16" fill="url(#primaryGrad)" opacity="0.1"
+            stroke="url(#primaryGrad)" stroke-width="1" filter="url(#glow)" />
+          <text x="350" y="35" text-anchor="middle" fill="#007AFF" font-family="JetBrains Mono, monospace"
+            font-size="18" font-weight="600">DATA PREPARATION</text>
+          <text x="30" y="70" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">📸 Image
+            Input / Document Scanning</text>
+          <text x="30" y="95" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">🧹
+            Preprocessing Pipeline</text>
+          <text x="50" y="115" fill="rgba(255,255,255,0.8)" font-family="Inter, sans-serif" font-size="13">Denoise •
+            Deskew • Binarization • Enhancement</text>
+        </g>
+
+        <line x1="400" y1="260" x2="400" y2="300" stroke="url(#primaryGrad)" stroke-width="2" marker-end="url(#arrow)"
+          opacity="0.8" />
+
+        <!-- Stage 2: OCR Engine -->
+        <g transform="translate(50, 320)">
+          <rect x="0" y="0" width="700" height="200" rx="16" fill="url(#accentGrad)" opacity="0.1"
+            stroke="url(#accentGrad)" stroke-width="1" filter="url(#glow)" />
+          <text x="350" y="35" text-anchor="middle" fill="#00C7BE" font-family="JetBrains Mono, monospace"
+            font-size="18" font-weight="600">OCR ENGINE</text>
+
+          <text x="30" y="70" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">🧠 Text
+            Detection</text>
+          <text x="50" y="90" fill="rgba(255,255,255,0.8)" font-family="Inter, sans-serif" font-size="13">CRAFT / YOLOv8
+            / PaddleOCR</text>
+
+          <text x="30" y="120" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">🔤 Text
+            Recognition</text>
+          <text x="50" y="140" fill="rgba(255,255,255,0.8)" font-family="Inter, sans-serif" font-size="13">TrOCR / CRNN
+            / Vision Transformer</text>
+
+          <text x="400" y="70" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">🗣
+            Language Processing</text>
+          <text x="420" y="90" fill="rgba(255,255,255,0.8)" font-family="Inter, sans-serif" font-size="13">MongolianBERT
+            / MonT5</text>
+        </g>
+
+        <line x1="400" y1="540" x2="400" y2="580" stroke="url(#accentGrad)" stroke-width="2" marker-end="url(#arrow)"
+          opacity="0.8" />
+
+        <!-- Stage 3: Post Processing -->
+        <g transform="translate(50, 600)">
+          <rect x="0" y="0" width="700" height="140" rx="16" fill="url(#successGrad)" opacity="0.1"
+            stroke="url(#successGrad)" stroke-width="1" filter="url(#glow)" />
+          <text x="350" y="35" text-anchor="middle" fill="#34C759" font-family="JetBrains Mono, monospace"
+            font-size="18" font-weight="600">POST PROCESSING</text>
+
+          <text x="30" y="70" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">🔡 Unicode
+            Normalization</text>
+          <text x="50" y="90" fill="rgba(255,255,255,0.8)" font-family="Inter, sans-serif" font-size="13">Menksoft →
+            Unicode Conversion</text>
+
+          <text x="400" y="70" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">📦 Output
+            Generation</text>
+          <text x="420" y="90" fill="rgba(255,255,255,0.8)" font-family="Inter, sans-serif" font-size="13">JSON / TXT /
+            PDF / CSV</text>
+        </g>
+
+        <line x1="400" y1="760" x2="400" y2="800" stroke="url(#successGrad)" stroke-width="2" marker-end="url(#arrow)"
+          opacity="0.8" />
+
+        <!-- Stage 4: Search Integration -->
+        <g transform="translate(50, 820)">
+          <rect x="0" y="0" width="700" height="100" rx="16" fill="url(#primaryGrad)" opacity="0.1"
+            stroke="url(#primaryGrad)" stroke-width="1" stroke-dasharray="8,4" filter="url(#glow)" />
+          <text x="350" y="35" text-anchor="middle" fill="#007AFF" font-family="JetBrains Mono, monospace"
+            font-size="16" font-weight="600">SEARCH INTEGRATION</text>
+          <text x="30" y="65" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="15" font-weight="500">🔍 RAG /
+            Vector Search</text>
+        </g>
+      </svg>
+    </div>
   </section>
 
+  <!-- Dataset Section -->
   <section id="dataset">
-    <h2>📊 OCR Dataset Statistics / OCR өгөгдлийн хуваарилалт</h2>
-    <p>Сургалтын өгөгдлийн бүтэц ба хэмжээ:</p>
-    <canvas id="datasetChart" width="800" height="400"></canvas>
+    <h2>Dataset Statistics</h2>
+    <p>Сургалтын өгөгдлийн бүтэц ба хэмжээ</p>
+    <div class="chart-container">
+      <canvas id="datasetChart"></canvas>
+      <div id="chartLoading" class="chart-loading" style="display: none;">
+        <div class="loading-spinner">📊</div>
+        <p>Loading chart...</p>
+      </div>
+    </div>
   </section>
 
-  <section id="problem">
-    <h2>🚨 Асуудал / Problem</h2>
-    <p><strong>Монгол бичгийн дижитал хоцрогдол:</strong></p>
-    <ul>
-      <li>Түүхэн баримт бичгүүд хуучирч, алга болж байна</li>
-      <li>Монгол бичгийг таних OCR технологи хангалтгүй</li>
-      <li>Орчуулга, хайлтын системүүд дутагдалтай</li>
-      <li>Дэлхийн хэмжээнд Монгол хэлний дижитал контент цөөн</li>
-    </ul>
+  <!-- Problem & Solution Split -->
+  <section id="problem" style="min-height: auto; padding: var(--spacing-3xl) var(--spacing-lg);">
+    <div class="main-container">
+      <div class="split-section">
+        <div class="glass-card">
+          <h2>Асуудал</h2>
+          <ul>
+            <li>Түүхэн баримт бичгүүд хуучирч, алга болж байна</li>
+            <li>Монгол бичгийг таних OCR технологи хангалтгүй</li>
+            <li>Орчуулга, хайлтын системүүд дутагдалтай</li>
+            <li>Дэлхийн хэмжээнд Монгол хэлний дижитал контент цөөн</li>
+          </ul>
+        </div>
+
+        <div class="glass-card" id="solution">
+          <h2>Шийдэл</h2>
+          <ul>
+            <li>Өндөр нарийвчлалтай OCR систем (95%+ зөв байдал)</li>
+            <li>Монгол-Англи хэл хоорондын орчуулга</li>
+            <li>Ухаалаг хайлт ба индексжүүлэлт</li>
+            <li>Соёлын өвийн цахим сан бүтээх</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="solution">
-    <h2>💡 Шийдэл / Solution</h2>
-    <p><strong>AI-д суурилсан Монгол бичгийн дижитал платформ:</strong></p>
-    <ul>
-      <li>Өндөр нарийвчлалтай OCR систем (95%+ зөв байдал)</li>
-      <li>Монгол-Англи хэл хоорондын орчуулга</li>
-      <li>Ухаалаг хайлт ба индексжүүлэлт</li>
-      <li>Соёлын өвийн цахим сан бүтээх</li>
-    </ul>
-  </section>
-
+  <!-- Technology Section -->
   <section id="technology">
-    <h2>⚙️ Технологийн бүтэц / Technology Stack</h2>
-    <p><strong>Хиймэл оюуны дэвшилтэт технологиуд:</strong></p>
-    <ul>
-      <li>Computer Vision: OpenCV, TensorFlow, PyTorch</li>
-      <li>OCR Engine: Tesseract, PaddleOCR, Custom CNN</li>
-      <li>NLP: Transformer models, BERT, GPT</li>
-      <li>Backend: Python, FastAPI, PostgreSQL</li>
-      <li>Frontend: React, TypeScript, Chart.js</li>
-    </ul>
+    <h2>Technology Stack</h2>
+    <p>Хиймэл оюуны дэвшилтэт технологиуд</p>
+
+    <div class="tech-grid">
+      <div class="tech-item">
+        <h3>Computer Vision</h3>
+        <p>OpenCV, TensorFlow, PyTorch</p>
+      </div>
+      <div class="tech-item">
+        <h3>OCR Engine</h3>
+        <p>Tesseract, PaddleOCR, Custom CNN</p>
+      </div>
+      <div class="tech-item">
+        <h3>NLP</h3>
+        <p>Transformer, BERT, GPT</p>
+      </div>
+      <div class="tech-item">
+        <h3>Backend</h3>
+        <p>Python, FastAPI, PostgreSQL</p>
+      </div>
+    </div>
   </section>
 
+  <!-- Market Section -->
   <section id="market">
-    <h2>📈 Зах зээлийн боломж / Market Opportunity</h2>
-    <p><strong>Дэлхийн OCR зах зээл:</strong></p>
-    <ul>
-      <li>2024 он: $13.38 тэрбум ам.доллар</li>
-      <li>2030 он хүртэл: $26.31 тэрбум ам.доллар</li>
-      <li>Жилийн өсөлт: 12.3% (CAGR)</li>
-      <li>Монгол хэлний зах зээл: Шинэ боломж</li>
-    </ul>
+    <h2>Market Opportunity</h2>
+    <p>Дэлхийн OCR зах зээлийн боломж</p>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number">$13.38B</span>
+        <span class="stat-label">2024 Market Size</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">$26.31B</span>
+        <span class="stat-label">2030 Projection</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">12.3%</span>
+        <span class="stat-label">Annual Growth</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">New</span>
+        <span class="stat-label">Mongolian Market</span>
+      </div>
+    </div>
   </section>
 
+  <!-- Vision Section -->
   <section id="vision">
-    <h2>💬 Алсын хараа / Vision</h2>
-    <p><em>"Монгол бичгийг хиймэл оюуны сэтгэлгээнд шингээж, дижитал ертөнцөд амилуулах."</em></p>
-    <p>Монгол хэлний дижитал экосистемийг бүтээж, судалгаанд суурилсан инновацаар дэлхийд Монгол соёлыг таниулах зорилготой.</p>
+    <div class="glass-card">
+      <h2>Алсын хараа</h2>
+      <p class="vision-quote">
+        "Монгол хэл бичгийг хиймэл оюуны сэтгэлгээнд шингээж, дижитал ертөнцөд амилуулах."
+      </p>
+      <p class="vision-description">
+        Монгол хэлний дижитал экосистемийг бүтээж, судалгаанд суурилсан инновацаар дэлхийд Монгол соёлыг таниулах зорилготой.
+      </p>
+    </div>
   </section>
 
+  <!-- Project Overview Section -->
+  <section id="overview">
+    <style>
+      #overview {
+        padding: 6rem 2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .svg-mindmap-container {
+        width: 100%;
+        max-width: 1200px;
+        background: transparent;
+        border-radius: 24px;
+        padding: 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .mindmap-svg {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+      }
+
+      .mindmap-node {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .mindmap-node:hover {
+        transform: scale(1.05);
+      }
+
+      .node-tech {
+        filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
+      }
+
+      .node-ai {
+        filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
+      }
+
+      .node-business {
+        filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.6));
+      }
+
+      .node-center {
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+      }
+
+      .mindmap-text {
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        fill: #ffffff;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+
+      .mindmap-title {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 1.4rem;
+        fill: #ffffff;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+
+      .connection-line {
+        stroke: rgba(255, 255, 255, 0.3);
+        stroke-width: 2;
+        opacity: 0.6;
+      }
+
+      @media (max-width: 768px) {
+        #overview {
+          padding: 4rem 1rem;
+        }
+        
+        .svg-mindmap-container {
+          padding: 1rem;
+        }
+      }
+    </style>
+
+    <h2>Project Overview</h2>
+    <p>Төслийн бүтэц ба стратегийн зураглал</p>
+    
+    <div class="svg-mindmap-container">
+      <svg class="mindmap-svg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+        <!-- Connection Lines -->
+        <line x1="500" y1="350" x2="200" y2="150" class="connection-line" />
+        <line x1="500" y1="350" x2="800" y2="150" class="connection-line" />
+        <line x1="500" y1="350" x2="150" y2="350" class="connection-line" />
+        <line x1="500" y1="350" x2="850" y2="350" class="connection-line" />
+        <line x1="500" y1="350" x2="200" y2="550" class="connection-line" />
+        <line x1="500" y1="350" x2="800" y2="550" class="connection-line" />
+
+        <!-- Technology Node -->
+        <g class="mindmap-node node-tech">
+          <circle cx="200" cy="150" r="60" fill="rgba(255, 20, 147, 0.2)" stroke="rgba(255, 20, 147, 0.8)" stroke-width="2"/>
+          <text x="200" y="140" class="mindmap-text" font-size="14">Technology</text>
+          <text x="200" y="160" class="mindmap-text" font-size="12">OCR • NLP • RAG</text>
+        </g>
+
+        <!-- AI/ML Node -->
+        <g class="mindmap-node node-ai">
+          <circle cx="800" cy="150" r="60" fill="rgba(0, 255, 255, 0.2)" stroke="rgba(0, 255, 255, 0.8)" stroke-width="2"/>
+          <text x="800" y="140" class="mindmap-text" font-size="14">AI/ML</text>
+          <text x="800" y="160" class="mindmap-text" font-size="12">Vision • Language</text>
+        </g>
+
+        <!-- Products Node -->
+        <g class="mindmap-node node-ai">
+          <circle cx="150" cy="350" r="55" fill="rgba(0, 255, 255, 0.2)" stroke="rgba(0, 255, 255, 0.8)" stroke-width="2"/>
+          <text x="150" y="340" class="mindmap-text" font-size="14">Products</text>
+          <text x="150" y="360" class="mindmap-text" font-size="12">Portal • Studio</text>
+        </g>
+
+        <!-- Business Node -->
+        <g class="mindmap-node node-business">
+          <circle cx="850" cy="350" r="55" fill="rgba(255, 165, 0, 0.2)" stroke="rgba(255, 165, 0, 0.8)" stroke-width="2"/>
+          <text x="850" y="340" class="mindmap-text" font-size="14">Business</text>
+          <text x="850" y="360" class="mindmap-text" font-size="12">SaaS • API</text>
+        </g>
+
+        <!-- Market Node -->
+        <g class="mindmap-node node-business">
+          <circle cx="200" cy="550" r="55" fill="rgba(255, 165, 0, 0.2)" stroke="rgba(255, 165, 0, 0.8)" stroke-width="2"/>
+          <text x="200" y="540" class="mindmap-text" font-size="14">Market</text>
+          <text x="200" y="560" class="mindmap-text" font-size="12">B2C • B2B • B2G</text>
+        </g>
+
+        <!-- Future Node -->
+        <g class="mindmap-node node-tech">
+          <circle cx="800" cy="550" r="55" fill="rgba(255, 20, 147, 0.2)" stroke="rgba(255, 20, 147, 0.8)" stroke-width="2"/>
+          <text x="800" y="540" class="mindmap-text" font-size="14">Future</text>
+          <text x="800" y="560" class="mindmap-text" font-size="12">Global • Mobile</text>
+        </g>
+
+        <!-- Center Node -->
+        <g class="mindmap-node node-center">
+          <circle cx="500" cy="350" r="80" fill="rgba(255, 255, 255, 0.1)" stroke="rgba(255, 255, 255, 0.8)" stroke-width="3"/>
+          <text x="500" y="340" class="mindmap-title">Mongolian</text>
+          <text x="500" y="360" class="mindmap-title">AI Portal</text>
+        </g>
+
+        <!-- Animated pulse effect for center node -->
+        <circle cx="500" cy="350" r="80" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1">
+          <animate attributeName="r" values="80;90;80" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <div class="footer">
-    Монгол бичигт AI портал © 2025 — Инноваци ба Соёлын уулзвар
+    <p>Монгол хэл бичигт AI портал © 2025 — Инноваци ба Соёлын уулзвар</p>
+    <p>🚀 Дижитал ирээдүйг хамтдаа бүтээцгээе</p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script>
-    // Cross-environment image loading with fallback paths
-    function setupImageFallbacks() {
-      const images = document.querySelectorAll('img.diagram');
-      images.forEach(img => {
-        const fallbackPaths = [
-          '/pipeline-diagram-ocr.png',        // Vercel production
-          './public/pipeline-diagram-ocr.png', // Local file://
-          'public/pipeline-diagram-ocr.png'    // Alternative local
-        ];
-        
-        let currentIndex = 0;
-        
-        function tryNextPath() {
-          if (currentIndex < fallbackPaths.length) {
-            img.classList.add('loading');
-            img.src = fallbackPaths[currentIndex];
-            currentIndex++;
-          } else {
-            console.warn('Could not load pipeline diagram image');
-            img.alt = 'Pipeline diagram could not be loaded';
+    // Scroll Progress
+    function updateScrollProgress() {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollTop / docHeight;
+      document.querySelector('.scroll-progress').style.transform = `scaleX(${scrollPercent})`;
+    }
+
+    // Navigation Scroll Effect
+    function handleNavScroll() {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }
+
+    // Smooth Scroll
+    function setupSmoothScroll() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
           }
-        }
-        
-        img.onload = function() {
-          img.classList.remove('loading');
-        };
-        
-        img.onerror = tryNextPath;
-        
-        // Start with first path if not already loaded
-        if (!img.complete || img.naturalHeight === 0) {
-          tryNextPath();
-        }
+        });
       });
     }
 
-    // Section visibility observer
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-    sections.forEach(sec => observer.observe(sec));
+    // Intersection Observer
+    function setupIntersectionObserver() {
+      const sections = document.querySelectorAll('section');
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }
+      );
+      sections.forEach(sec => observer.observe(sec));
+    }
 
-    // Dataset Chart
+    // Chart Initialization
+    let chartInstance = null;
+
     function initializeChart() {
       const ctx = document.getElementById('datasetChart');
+      const loadingEl = document.getElementById('chartLoading');
+
       if (ctx) {
-        const chart = new Chart(ctx.getContext('2d'), {
-          type: 'bar',
-          data: {
-            labels: ['Train / Сургалт', 'Validation / Баталгаажуулалт', 'Test / Туршилт'],
-            datasets: [{
-              label: 'Зургийн тоо (Images)',
-              data: [38000, 10000, 4000],
-              backgroundColor: ['#004aad', '#009688', '#80cbc4']
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              title: {
-                display: true,
-                text: 'Dataset Split — Train / Validation / Test',
-                font: { size: 18 }
-              }
+        if (loadingEl) loadingEl.style.display = 'flex';
+
+        if (chartInstance) {
+          chartInstance.destroy();
+          chartInstance = null;
+        }
+
+        const existingChart = Chart.getChart(ctx);
+        if (existingChart) existingChart.destroy();
+
+        try {
+          chartInstance = new Chart(ctx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+              labels: ['Training', 'Validation', 'Test'],
+              datasets: [{
+                data: [38000, 10000, 4000],
+                backgroundColor: [
+                  'rgba(0, 122, 255, 0.8)',
+                  'rgba(88, 86, 214, 0.8)',
+                  'rgba(0, 199, 190, 0.8)'
+                ],
+                borderColor: [
+                  '#007AFF',
+                  '#5856D6',
+                  '#00C7BE'
+                ],
+                borderWidth: 2,
+                hoverOffset: 8
+              }]
             },
-            scales: { 
-              y: { 
-                beginAtZero: true,
-                ticks: {
-                  callback: function(value) {
-                    return value.toLocaleString();
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: {
+                    padding: 20,
+                    font: {
+                      size: 14,
+                      weight: '500',
+                      family: 'Inter'
+                    },
+                    color: 'rgba(255,255,255,0.8)'
                   }
                 }
+              },
+              animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1500,
+                easing: 'easeOutQuart'
               }
             }
+          });
+
+          if (loadingEl) {
+            setTimeout(() => loadingEl.style.display = 'none', 800);
           }
+
+        } catch (error) {
+          console.error('Chart error:', error);
+          if (loadingEl) loadingEl.style.display = 'none';
+        }
+      }
+    }
+
+    // Mobile Menu
+    function setupMobileMenu() {
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+
+      if (toggle && navLinks) {
+        toggle.addEventListener('click', () => {
+          navLinks.classList.toggle('active');
+        });
+
+        navLinks.addEventListener('click', () => {
+          navLinks.classList.remove('active');
         });
       }
     }
 
-    // Initialize everything when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
-      setupImageFallbacks();
-      initializeChart();
+    // Parallax Effect
+    function setupParallax() {
+      const parallaxElements = document.querySelectorAll('.parallax');
+
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+
+        parallaxElements.forEach(element => {
+          element.style.transform = `translateY(${rate}px)`;
+        });
+      });
+    }
+
+
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      setupSmoothScroll();
+      setupIntersectionObserver();
+      setupMobileMenu();
+      setupParallax();
+
+      setTimeout(() => {
+        if (!chartInstance) initializeChart();
+      }, 500);
     });
 
-    // Fallback for older browsers
-    window.addEventListener('load', function() {
-      setupImageFallbacks();
-      if (!document.getElementById('datasetChart').hasChildNodes()) {
+    // Scroll Events
+    window.addEventListener('scroll', () => {
+      updateScrollProgress();
+      handleNavScroll();
+    });
+
+    // Load Fallback
+    window.addEventListener('load', () => {
+      if (!chartInstance && document.getElementById('datasetChart')) {
         initializeChart();
       }
     });
